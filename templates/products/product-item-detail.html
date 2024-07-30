@@ -1,0 +1,122 @@
+{% extends "header.html" %}
+
+{% block cont %}
+{% load static %}
+<!-- ============== SECTION CONTENT ============== -->
+<section class="padding-y">
+<div class="container">
+
+<div class="row">
+<aside class="col-lg-6">
+  <article class="gallery-wrap"> 
+    <div class=" img-thumbnail ">
+       <a data-fslightbox="mygalley" data-type="image" href="{{ product.image.url }}"> 
+          <img height="560" src="{{ product.image.url }}" alt="{{ product.name }}"> 
+       </a>
+    </div> <!-- img-big-wrap.// -->
+  </article> <!-- gallery-wrap .end// -->
+</aside>
+<main class="col-lg-6">
+  <article class="ps-lg-3">
+    <h4 class="title text-dark">{{ product.name }} </h4>
+    <div class="rating-wrap my-3">
+      <ul class="rating-stars">
+        <li style="width:{{ average_rating|default:0 }}0%" class="stars-active"> 
+          <img src="{% static 'images/misc/stars-active.svg' %}" alt="Active stars"> 
+        </li>
+        <li> <img src="{% static 'images/misc/starts-disable.svg' %}" alt="Disabled stars"> </li>
+      </ul>
+      <b class="label-rating text-warning">{{ average_rating|default:"No ratings yet" }}</b>
+      <i class="dot"></i>
+      <span class="label-rating text-muted"><i class="fa fa-shopping-basket"></i> {{ product.orderitem_set.count }} orders</span>
+      <i class="dot"></i>
+      <span class="label-rating text-success">{{ product.stock }}</span>
+    </div> <!-- rating-wrap.// -->
+
+    <div class="mb-3"> 
+      <var class="price h5">${{ product.price }}</var> 
+      <span class="text-muted">/per box</span> 
+    </div> 
+
+    <p>{{ product.description }}</p>
+
+    <dl class="row">
+      <dt class="col-3">Type:</dt>
+      <dd class="col-9">Regular</dd>
+
+      <dt class="col-3">Color</dt>
+      <dd class="col-9">{{ product.Color }}</dd>
+
+      <dt class="col-3">Material</dt>
+      <dd class="col-9">{{ product.Material }}</dd>
+
+      <dt class="col-3">Brand</dt>
+      <dd class="col-9">{{ product.Brand }}</dd>
+    </dl>
+
+    <hr>
+
+    <div class="row mb-4">
+      <div class="col-md-4 col-6 mb-3">
+        <label class="form-label d-block">Quantity</label>
+        <div class="input-group input-spinner">
+
+          
+          <button class="btn btn-icon btn-light" type="button"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
+                <path d="M19 13H5v-2h14v2z"></path>
+              </svg>
+          </button>
+          
+          <input class="form-control text-center" value="">
+        
+          <button class="btn btn-icon btn-light" type="button"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+              </svg>
+          </button>
+          
+        </div> <!-- input-group.// -->
+      </div> <!-- col.// -->
+    </div> <!-- row.// -->
+
+    <a href="#" class="btn btn-warning">Buy now</a>
+    <a href="#" class="btn btn-primary"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+    <a href="#" class="btn btn-light"> <i class="me-1 fa fa-heart"></i> Save </a>
+
+    <!-- Reviews Section -->
+    <hr>
+    <h3>Customer Reviews</h3>
+    {% if ratings %}
+      <ul class="list-unstyled">
+        {% for rating in ratings %}
+          <li class="mb-4">
+            <strong>{{ rating.user.username }}</strong>
+            <div class="rating-stars">
+              <ul class="rating-stars">
+                <li style="width:{{ rating.score }}0%" class="stars-active">
+                  <img src="{% static 'images/misc/stars-active.svg' %}" alt="Active stars">
+                </li>
+                <li>
+                  <img src="{% static 'images/misc/starts-disable.svg' %}" alt="Disabled stars">
+                </li>
+              </ul>
+            </div>
+            <p>{{ rating.comment }}</p>
+            <small>Reviewed on {{ rating.created_at }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No reviews yet. Be the first to review this product!</p>
+    {% endif %}
+  </article> <!-- product-info-aside .// -->
+</main> <!-- col.// -->
+</div> <!-- row.// -->
+
+</div> <!-- container .//  -->
+</section>
+<!-- ============== SECTION CONTENT END// ============== -->
+
+<!-- ============== SECTION  ============== -->
+{% endblock cont %}

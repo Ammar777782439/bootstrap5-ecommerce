@@ -1,0 +1,86 @@
+
+
+{% extends "header.html" %}
+
+{% block cont %}
+{% load static %}
+<main class="col-lg-9">
+		
+  
+          {% for product in name  %}
+
+    <!-- ========= content items ========= -->
+    <article class="card card-product-list">
+      <div class="row g-0">
+        <aside class="col-xl-3 col-md-4">
+          <a href="#" class="img-wrap"> <img src="{{ product.image.url }}"> </a>
+        </aside> <!-- col.// -->
+        <div class="col-xl-6 col-md-5 col-sm-7">
+          <div class="card-body">
+            <a href="#" class="title h5"> {{product.name}} </a>
+
+            <div class="rating-wrap mb-2">
+              <ul class="rating-stars">
+                <li class="stars-active" style="width: 90%;">
+                  <!--<img src="{% static 'images/misc/stars-active.svg' %}" alt="">-->
+                </li>
+                <li> <img src="{% static 'images/misc/starts-disable.svg' %}" alt=""> </li>
+              </ul>
+              <span class="label-rating text-warning">4.5</span>
+              <i class="dot"></i>
+              <span class="label-rating text-muted">154 orders</span>
+            </div> <!-- rating-wrap.// -->
+            <p> {{product.description}}</p>
+          </div> <!-- card-body.// -->
+        </div> <!-- col.// -->
+        <aside class="col-xl-3 col-md-3 col-sm-5">
+          <div class="info-aside">
+            <div class="price-wrap">
+              <span class="price h5"> $34.50 </span>  
+              <del class="price-old"> $198</del>
+            </div> <!-- info-price-detail // -->
+            <p class="text-success">Free shipping</p>
+            <br>
+            <div class="mb-3">
+              <span><a href="{% url 'product_detail' id=product.id %}" class="btn btn-primary"> Buy this </a></span>
+              <a href="#" class="btn btn-light btn-icon">  <i class="fa fa-heart"></i>  </a>
+            </div>
+          </div> <!-- info-aside.// -->
+        </aside> <!-- col.// -->
+      </div> <!-- row.// -->
+    </article>
+
+    {% endfor %}
+
+
+
+
+    <hr>
+
+    <footer class="d-flex mt-4">
+      <div>
+        <a href="javascript: history.back()" class="btn btn-light"> &laquo; Go back</a>
+      </div>
+      <nav class="ms-3">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">2</span>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </footer>
+
+    <!-- ========= content items .// ========= -->
+
+    
+
+	</main> <!-- col .// -->
+</div> <!-- row .// -->
+
+
+{% endblock cont %}
