@@ -45,8 +45,8 @@
       <div class="collapse navbar-collapse"  id="navbar_main">
           <ul class="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0">
             <li class="nav-item  me-2 active">
-              <a class="nav-link" href="#"> Home 
-                <span class="sr-only">(current)</span>
+              <a class="nav-link" href="{% url "index" %}"> Home 
+                <span class="sr-only"></span>
               </a>
             </li>
             <li class="nav-item me-2">
@@ -75,9 +75,9 @@
               <ul class="dropdown-menu dropdown-menu-end">
                 <li> <a class="dropdown-item" href="#">Profile</a> </li>
                 <li> <a class="dropdown-item" href="#">Account Settings</a> </li>
-                <li> <a class="dropdown-item" href="#">Newsletter</a> </li>
+                <li> <a class="dropdown-item" href="{% url "cart_view" %}">CartItem</a> </li>
                 <li> <hr class="dropdown-divider"> </li>
-                <li> <a class="dropdown-item" href="#">Sign Out</a> </li>
+                <li> <a class="dropdown-item" href="{% url "SignOut" %}">Sign Out</a> </li>
               </ul>
             </li>
           </ul>

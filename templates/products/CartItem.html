@@ -1,0 +1,113 @@
+{% extends "header.html" %}
+
+{% block cont %}
+
+<section class="padding-y bg-light">
+    <div class="container">
+    
+    <!-- =================== COMPONENT CART+SUMMARY ====================== -->
+    <div class="row">
+        <div class="col-lg-9">
+    
+    <div class="card">
+    <div class="card-body">
+    
+        <h5 class="card-title mb-4">Shopping cart</h5>
+    {% for cart_items in cart_items %}
+        <article class="row gy-3  mb-4">
+            <div class="col-lg-6">
+                <figure class="itemside  me-lg-5">
+                    <div class="aside"><img src="{{cart_items.product.image.url}}" class="img-sm border rounded"></div>
+                    <figcaption class="info">
+                        <a href="#" class="title mb-1">{{cart_items.product.description}}</a>
+                        <p class="text-muted small"> Color: {{cart_items.product.Color}}, Brand: {{cart_items.product.Brand}}  </p>
+                    </figcaption>
+                </figure>
+            </div>
+            
+            <div class="col-auto">
+                <select style="width: 100px" class="form-select">
+                    
+                    <option>{{cart_items.quantity }}</option>
+                    <option></option>
+	             
+                </select> 
+            </div>
+        
+            <div class="col-lg-2 col-sm-4 col-6">
+                <div class="price-wrap lh-sm"> 
+                    <var class="price h6">{{cart_items.product.price}}</var>  <br>
+                    <small class="text-muted"> $460.00 / per item </small> 
+                </div> <!-- price-wrap .// -->
+            </div>
+            <div class="col-lg col-sm-4">
+                <div class="float-lg-end">
+                  
+                    <a href="{% url "Remove" cartId=cart_items.id %}" class="btn btn-light text-danger"> Remove</a>
+                </div>
+            
+         <!-- card-body.// -->
+        </div> <!-- card.// -->
+    
+        </article> <!-- row.// -->
+        {% endfor %}
+    
+    </div>
+
+</div> <!-- card.// -->
+
+</div> <!-- col.// -->
+<aside class="col-lg-3">
+
+    <div class="card mb-3">
+    <div class="card-body">
+    <form>
+        <label class="form-label">Have coupon?</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="" placeholder="Coupon code">
+            <button class="btn btn-light">Apply</button>
+        </div>
+    </form>
+    </div> <!-- card-body.// -->
+    </div> <!-- card.// -->
+
+    <div class="card">
+        <div class="card-body">
+            <dl class="dlist-align">
+                <dt>Total price:</dt>
+                <dd class="text-end">${{ total_price }}</dd>
+            </dl>
+            <dl class="dlist-align">
+                <dt>Discount:</dt>
+                <dd class="text-end text-success"> - $60.00 </dd>
+            </dl>
+            <dl class="dlist-align">
+                <dt>TAX:</dt>
+                <dd class="text-end text-danger"> + $14.00 </dd>
+            </dl>
+            <hr>
+            <dl class="dlist-align">
+                <dt>Total:</dt>
+                <dd class="text-end text-dark h5">${{ total_price }}</dd>
+            </dl>
+        
+            <div class="d-grid gap-2 my-3">
+                <a href="#" class="btn btn-primary w-100"> Make Purchase </a>
+                <a href="#" class="btn btn-light w-100"> Back to shop </a>
+            </div>
+        </div>
+        
+
+</aside> 
+</div>
+</div>
+<!-- col.// -->
+<br><br>
+
+ <!-- card-body .// -->
+
+
+        
+
+
+{% endblock cont %}
