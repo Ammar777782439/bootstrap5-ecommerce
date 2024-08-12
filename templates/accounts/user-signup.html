@@ -1,90 +1,110 @@
-
 {% extends "header.html" %}
 {% load static %}
 {% block cont %}
 
-
-<!-- ============== SECTION CONTENT  ============== -->
+<!-- ============== SECTION CONTENT ============== -->
 <section class="padding-y bg-light" style="min-height:90vh">
     <div class="container">
     
-    
-    
-    <!-- ====== COMPONENT LOGIN  ====== -->
+    <!-- ====== COMPONENT LOGIN ====== -->
     <div class="card shadow mx-auto" style="max-width:400px; margin-top:40px;">
-        {% if message %}
- <ul class="messages">
- {% for message in messages %}
- <li class="{{ message.tage }}">
- {{ message }}
- <a href="#" class="close">x</a>
-</li>
-{% endfor %}
-</ul>
-{% endif %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message }}
+                <a href="#" class="close">x</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <div class="card-body">
             
-        <h4 class="card-title mb-4">Sign in</h4>
-        <form action="" method="post" >
+        <h4 class="card-title mb-4">Sign up</h4>
+        <form action="" method="post">
             {% csrf_token %}
-            <div class=" mb-3">
-            <div class="row gx-2">
-                
-                    <label class="form-label">first name</label>
+            <div class="mb-3">
+                <div class="row gx-2">
+                    <label class="form-label">First Name</label>
                     <input type="text" class="form-control" name="first">
-                    <label class="form-label"> last name</label>
+                    <label class="form-label">Last Name</label>
                     <input type="text" class="form-control" name="last">
-                    <label class="form-label"> username</label>
+                    <label class="form-label">Username</label>
                     <input type="text" class="form-control" name="name">
-                    
                 </div>
-                
             </div> <!-- row // -->
             <div class="mb-3">
-                 <label class="form-label">Email</label>
-                 <input class="form-control" placeholder="Type email" type="text" name="email">
-            </div> 
+                <label class="form-label">Email</label>
+                <input class="form-control" placeholder="Type email" type="text" name="email">
+            </div>
             <div class="mb-3">
-                 <label class="form-label">Phone</label>
-                 <div class="row gx-2">
-                     <div class="col-4"> <input class="form-control" value="+967"  type="text" name="kay"> </div>
-                     <div class="col-8"> <input class="form-control" placeholder="Phone" type="text" name="Phone"> </div>
-                 </div> <!-- row // -->
-            </div> 
+                <label class="form-label">Phone</label>
+                <div class="row gx-2">
+                    <div class="col-4">
+                        <input class="form-control" value="+967" type="text" name="kay">
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control" placeholder="Phone" type="text" name="Phone">
+                    </div>
+                </div> <!-- row // -->
+            </div>
             <div class="mb-3">
-                <label class="form-label">Create password</label>
+                <label class="form-label">Create Password</label>
                 <input class="form-control" placeholder="At least 6 characters." type="password" name="password">
-            </div>  
+            </div>
             <div class="mb-3">
-                <label class="form-label">Repeat password</label>
+                <label class="form-label">Repeat Password</label>
                 <input class="form-control" placeholder="" type="password" name="Rpassword">
-            </div>  
+            </div>
+            <div class="row">
+                <div class="col-sm-8 mb-3">
+                    <label for="" class="form-label">Address</label>
+                    <input type="text" class="form-control" placeholder="Type here" name="Address">
+                </div> <!-- col end.// -->
+
+                <div class="col-sm-4 mb-3">
+                    <label for="" class="form-label">City*</label>
+                    <select class="form-select" name="city">
+                        <option value="New York">New York</option>
+                        <option value="Moscow">Moscow</option>
+                        <option value="Samarqand">Samarqand</option>
+                    </select>
+                </div> <!-- col end.// -->
+
+                
+
+                <div class="col-sm-4 col-6 mb-3">
+                    <label for="" class="form-label">Postal Code</label>
+                    <input type="text" class="form-control" placeholder="" name="Postal_code">
+                </div> <!-- col end.// -->
+
+                <div class="col-sm-4 col-6 mb-3">
+                    <label for="" class="form-label">Zip</label>
+                    <input type="text" class="form-control" placeholder="" name="Zip">
+                </div> <!-- col end.// -->
+            </div>
            
-              <input type="submit" class="btn btn-primary w-100" name="btnsignup" value="signup">   </input>
-             
-    
+            <input type="submit" class="btn btn-primary w-100" name="btnsignup" value="Sign Up">
+            
             <div class="mb-4">
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" checked value="on" name="check">
-                  <span class="form-check-label"> I agree with Terms and Conditions </span>
+                    <input class="form-check-input" type="checkbox" checked value="on" name="check">
+                    <span class="form-check-label"> I agree with Terms and Conditions </span>
                 </label>
-            </div> 
+            </div>
         </form>
         <hr>
-        <p class="text-center mb-2">Already have account? <a href="{% url "singin" %}">Sign in</a></p>
+        <p class="text-center mb-2">Already have an account? <a href="{% url 'singin' %}">Sign in</a></p>
     
     </div> <!-- card-body.// -->
     </div> <!-- card .// -->
     
-    <!-- ====== COMPONENT LOGIN  END.// ====== -->
+    <!-- ====== COMPONENT LOGIN END.// ====== -->
     
     <br><br>
     
-    </div> <!-- container .//  -->
-    </section>
-    <!-- ============== SECTION CONTENT END// ============== -->
-    
-
-
+    </div> <!-- container .// -->
+</section>
+<!-- ============== SECTION CONTENT END// ============== -->
 
 {% endblock cont %}

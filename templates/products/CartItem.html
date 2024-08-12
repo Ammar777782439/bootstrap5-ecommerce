@@ -26,6 +26,7 @@
             </div>
             
             <div class="col-auto">
+                
                 <select style="width: 100px" class="form-select">
                     
                     <option>{{cart_items.quantity }}</option>
@@ -83,7 +84,7 @@
             </dl>
             <dl class="dlist-align">
                 <dt>TAX:</dt>
-                <dd class="text-end text-danger"> + $14.00 </dd>
+                <dd class="text-end text-danger"> {{cart.id}} </dd>
             </dl>
             <hr>
             <dl class="dlist-align">
@@ -92,7 +93,7 @@
             </dl>
         
             <div class="d-grid gap-2 my-3">
-                <a href="#" class="btn btn-primary w-100"> Make Purchase </a>
+                <a href="{% url "order"  %}" class="btn btn-primary w-100"> Make Purchase </a>
                 <a href="#" class="btn btn-light w-100"> Back to shop </a>
             </div>
         </div>

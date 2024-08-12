@@ -1,22 +1,35 @@
+
+from itertools import product
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import CartItem, Product, ShoppingCart
+from django.db.models import Sum, F
+from accounts.models import UserProfile
+from .models import CartItem, OrderItem, Product, ShoppingCart,Order
 from .models import Rating
-from django.contrib.auth import authenticate
+from django.conf import settings
+from django.contrib.auth import authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-@login_required
+import json
+@login_required(redirect_field_name='account')
 def index(request):
-    m= request.session.get('userid')
+    # if not request.user.is_authenticated:#طريقه لتحقق من تسجيل الدخول للمستحدم
+    #     return redirect('singin')
+    
+
+    m= request.user.id
     products = Product.objects.all()
     products_with_ratings = []
-
+   
     for product in products:
         average_rating = product.get_average_rating()
         products_with_ratings.append({'product': product, 'average_rating': average_rating})
 
     context = {'products_with_ratings': products_with_ratings,'m':m}
     return render(request, 'products/index.html', context)
-@login_required
+
+
+@login_required(redirect_field_name='account')
 def detail(request, id):
     product = get_object_or_404(Product, id=id)
     ratings = product.ratings.all()  # الحصول على جميع التقييمات المرتبطة بالمنتج
@@ -29,49 +42,130 @@ def detail(request, id):
 
 
 @login_required
+@login_required
 def add_to_cart(request, product_id):
-    username = request.session.get('userid')
-    user = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        quantity = request.POST.get('quantity')
+        
+        user = request.user
+        product = get_object_or_404(Product, id=product_id)
+        cart, created = ShoppingCart.objects.get_or_create(user=user)
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product,quantity=quantity)
+        
+        if not created:
+            cart_item.quantity += int(quantity)
+        else:
+            cart_item.quantity = int(quantity)
+        
+        cart_item.save()
 
-    product = get_object_or_404(Product, id=product_id)
-    cart, created = ShoppingCart.objects.get_or_create(user=user)
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product,quantity=1)
-    
-    if not created:
-        cart_item.quantity += 1
-    else:
-        cart_item.quantity = 1  # تعيين كمية افتراضية عند إضافة عنصر جديد
-    
-    cart_item.save()
-
-    return redirect('cart_view')
+        return redirect('cart_view')
 
 @login_required
+
 def cart_view(request):
-    username = request.session.get('userid')
-    user = get_object_or_404(User, username=username)
     
-    cart = ShoppingCart.objects.filter(user=user).first()
-    cart_items = CartItem.objects.filter(cart=cart) if cart else []
-
-    total_price = sum(item.product.price * item.quantity 
-                      for item in cart_items)
+    user = request.user.id
+    cart_shop=ShoppingCart.objects.filter(user=user)
+    cart_items=CartItem.objects.filter(cart__id__in=cart_shop)
     
+    total_price=sum( itm.product.price*itm.quantity  for itm in cart_items)
     
-    
-    return render(request, 'products/CartItem.html', {'cart_items': cart_items, 'total_price': total_price})
-
+    return render(request,'products/CartItem.html',{'cart_items':cart_items,'total_price':total_price})
 @login_required
 def Remove(request,cartId):
 
-    cart=CartItem.objects.filter(id=cartId)
+    cart=get_object_or_404(CartItem, id=cartId)
     cart.delete()
     return redirect("cart_view")
+
+@login_required
+
+def add_to_comment(request):
+
+    user=request.user
+    pro_id=request.POST.get('product_id')
+    pro=Product.objects.get(id=pro_id)
+    score=request.POST.get('score')
+    comment=request.POST.get('comment')
+    data=Rating(user=user,product=pro,comment=comment,score=score)
+    data.save()
+    return redirect('product_detail',pro_id)
+def addoeder(request):
+    user = request.user
+    cart = ShoppingCart.objects.filter(user=user).first()
+
+    cart_items = CartItem.objects.filter(cart=cart)
+    
+    total_price = sum(itm.product.price * itm.quantity for itm in cart_items)
+
+    dostavka = request.POST.get('dostavka')
+    shipping_address = request.POST.get('Shipping_Address')
+
+    # إنشاء الطلب
+    order = Order.objects.create(
+        user=user,
+        total_price=total_price,
+        shipping_address=shipping_address,
+        shipping_method=dostavka,
+        order_status='Pending'  # تعيين الحالة الافتراضية للطلب
+    )
+
+    # إضافة العناصر إلى الطلب
+    for item in cart_items:
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            price=item.product.price
+        )
+
+    # حذف العناصر من السلة بعد إنشاء الطلب
+    cart_items.delete()
+
+    # الحصول على الملف الشخصي للمستخدم
+    user_profile = UserProfile.objects.get(user=user)
+
+    return redirect('order')
+   
+def order(request):
+
+    user=request.user
+    cart = ShoppingCart.objects.filter(user=user).first()
+    cart_items = CartItem.objects.filter(cart=cart) 
+    total_price=sum( itm.product.price*itm.quantity  for itm in cart_items)
+    
+
+    dostavka=request.GET.get('dostavka')
+    print(dostavka)
+    Shipping_Address=request.GET.get('Shipping_Address')
+    
+    
+        # الحصول على الملف الشخصي للمستخدم باستخدام العلاقة المحددة في نموذج UserProfile
+    user_profile = UserProfile.objects.get(user=user)
+    
+    return render(request, 'products/pageorder.html', {'user_profile': user_profile,'cart_items':cart_items,'total_price':total_price})
+
+
+
+
+
+
+
+def pay(request):
+
+
+    return render(request,'products/payment.html')
+
+
+
+
 
 
 
 @login_required
 def SignOut(request):
-    del request.session['userid']
+    
+    logout(request)
     return redirect('singin')
 
