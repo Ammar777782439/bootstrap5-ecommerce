@@ -1,0 +1,7 @@
+![cartitem](https://github.com/user-attachments/assets/5f7d56e0-fb10-4a34-8524-688e0376f4d1)
+![ل](https://github.com/user-attachments/assets/34b8ded1-d58a-48ac-8577-efdb6703873e)
+![pay](https://github.com/user-attachments/assets/e50d8346-5ad0-4472-9279-728b7e265b93)
+![home](https://github.com/user-attachments/assets/b5d96092-919c-4d39-845e-b8121582814c)
+![detile](https://github.com/user-attachments/assets/ec844e7b-8580-448e-addf-7c8c1d24b9a2)
+![profile](https://github.com/user-attachments/assets/efd57d36-ff0a-43d9-b399-1bbbc3732810)
+![بدون عنوان](https://github.com/user-attachments/assets/9df98083-1ad1-4b95-9432-44c8bc275109)
