@@ -9,6 +9,15 @@ English Translation:
  * Add Reviews: Users can leave reviews and ratings for products.
 Need something else? Feel free to ask!
 
+Main Features:
+
+ * User profiles: Stores user information like name, phone number, and address.
+ * Product categories: Organizes products into different groups.
+ * Shopping cart: Holds items selected by the user for purchase.
+ * Purchase orders: Tracks a record of user orders.
+ * Ratings: Allows users to rate products and leave comments.
+
+
 
 
 
