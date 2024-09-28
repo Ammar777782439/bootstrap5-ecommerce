@@ -1,18 +1,13 @@
-
-هذا المشروع هو تطبيق ويب للتجارة الإلكترونية مبني باستخدام إطار عمل Django، يهدف إلى توفير منصة سهلة الاستخدام للمستخدمين للتسوق عبر الإنترنت. يتضمن التطبيق مجموعة من الميزات الأساسية التي تسهل تجربة التسوق، مثل عرض المنتجات، إدارة السلة، إنشاء الطلبات، وتقييم المنتجات.
-
-
-الميزات الرئيسية:تسجيل الدخول والتسجيل:
-
-يسمح للمستخدمين بتسجيل الدخول إلى حساباتهم أو إنشاء حساب جديد.
-يتم استخدام نموذج
-UserProfile
-لتخزين معلومات إضافية عن المستخدمين.
-عرض المنتجات:
-يعرض التطبيق قائمة بالمنتجات المتاحة مع إمكانية تصفحها بشكل صفحات.
-يتم حساب متوسط تقييمات كل منتج وعرضها للمستخدمين.
-
-
+An e-commerce application built with Django. It includes features like:
+English Translation:
+ * Sign up & Log in: Users can create accounts and log in to interact with the store.
+ * Product Display: Shows available products with images, descriptions, and prices.
+ * Add to Cart: Users can add products to their cart, specifying quantity.
+ * View Cart: Displays items in the cart with a total price.
+ * Remove from Cart: Users can remove items from their cart.
+ * Checkout: Allows users to enter shipping information and complete the order.
+ * Add Reviews: Users can leave reviews and ratings for products.
+Need something else? Feel free to ask!
 
 
 
