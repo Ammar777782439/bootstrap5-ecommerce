@@ -4,6 +4,7 @@
 {% block cont %}
 
 <!-- ============== SECTION CONTENT  ============== -->
+ 
 <section class="padding-y bg-light" style="min-height:90vh">
     <div class="container">
        {{request.user.is_authenticated}}
@@ -34,7 +35,7 @@
                     </div> 
                 </form>
                 <hr>
-                <p class="text-center mb-2">Don't have an account? <a href="">Register</a></p>
+                <p class="text-center mb-2">Don't have an account? <a href="{% url "signup" %}">Register</a></p>
                 <p class="text-center mb-2"><a href="#">Forgot your password?</a></p>
             </div> <!-- card-body.// -->
         </div> <!-- card .// -->

@@ -1,11 +1,11 @@
 
 
 {% extends "header.html" %}
-
+{% block image %}<img src="{{profile.image.url}}"class="icon rounded-circle">{% endblock image %}
 {% block cont %}
 {% load static %}
 <main class="col-lg-9">
-		<h1></h1>
+		<h1>{{n}}</h1>
   {% for item in products_with_ratings %}
 <article class="card card-product-list">
   <div class="row g-0">
@@ -65,21 +65,44 @@
 
     <footer class="d-flex mt-4">
       <div>
-        <a href="javascript: history.back()" class="btn btn-light"> &laquo; Go back</a>
+          <a href="javascript: history.back()" class="btn btn-light"> &laquo; Go back</a>
       </div>
       <nav class="ms-3">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item active" aria-current="page">
-            <span class="page-link">2</span>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
+          <ul class="pagination">
+              {% if page_obj.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                  </li>
+              {% else %}
+                  <li class="page-item disabled">
+                      <span class="page-link">Previous</span>
+                  </li>
+              {% endif %}
+
+              {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                      <li class="page-item active">
+                          <span class="page-link">{{ num }}</span>
+                      </li>
+                  {% else %}
+                      <li class="page-item">
+                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                      </li>
+                  {% endif %}
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                  </li>
+              {% else %}
+                  <li class="page-item disabled">
+                      <span class="page-link">Next</span>
+                  </li>
+              {% endif %}
+          </ul>
       </nav>
-    </footer>
+  </footer>
 
     <!-- ========= content items .// ========= -->
 

@@ -15,7 +15,7 @@ urlpatterns = [
     path('order/', views.order, name='order'),
      path('orderR/', views.addoeder, name='addorder'),
       path('comment/', views.add_to_comment, name='add_to_comment'),
-      
+     
     
 ]
 

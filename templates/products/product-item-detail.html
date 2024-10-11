@@ -1,4 +1,5 @@
 {% extends "header.html" %}
+{% block image %}<img src="{{profile.image.url}}"class="icon rounded-circle">{% endblock image %}
 
 {% block cont %}
 {% load static %}
@@ -79,14 +80,43 @@
       </div> <!-- col.// -->
     </div> <!-- row.// -->
 
-    <a href="#" class="btn btn-warning">Buy now</a>
+    <a href="#" class="btn btn-warning"style="width: 150px; height: 30px;">Buy now</a>
     <a href="{% url 'add_to_cart' product_id=product.id %}" class="btn btn-primary">
   <form id="productForm" method="POST" action="{% url 'add_to_cart' product_id=product.id %}">
       {% csrf_token %}
       <input type="hidden" name="product_id" value="{{ product.id }}">
       {% comment %} <input type="hidden" name="product_name" value="{{ product.name }}"> {% endcomment %}
       <input type="hidden" id="formQuantity" name="quantity" value="1">  <!-- سيتم تحديث هذه القيمة باستخدام JavaScript -->
-      <button type="submit" class="btn btn-primary"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <button type="submit" class="btn btn-primary"style="width: 150px; height: 30px;">Add to cart <i class=" fa fa-shopping-basket"></i>  </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </form>
 </a>
     <!-- Reviews Section -->

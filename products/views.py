@@ -1,5 +1,7 @@
 
 from itertools import product
+from urllib import request
+from django.db import models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Sum, F
@@ -11,21 +13,39 @@ from django.contrib.auth import authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+def iameg(request):
+    
+    user=request.user.id
+    profile=UserProfile.objects.get(user__id=user)
+
+    return profile
+    
 @login_required(redirect_field_name='account')
 def index(request):
     # if not request.user.is_authenticated:#طريقه لتحقق من تسجيل الدخول للمستحدم
     #     return redirect('singin')
     
-
+    
     m= request.user.id
     products = Product.objects.all()
     products_with_ratings = []
    
-    for product in products:
+    paginator = Paginator(products, 4) 
+    page_number = request.GET.get('page')
+    
+    try:
+        paginated_products = paginator.page(page_number)
+    except PageNotAnInteger:
+        paginated_products = paginator.page(1)
+    except EmptyPage:
+        paginated_products = paginator.page(paginator.num_pages)
+    for product in paginated_products:
         average_rating = product.get_average_rating()
         products_with_ratings.append({'product': product, 'average_rating': average_rating})
 
-    context = {'products_with_ratings': products_with_ratings,'m':m}
+    context = {'products_with_ratings': products_with_ratings,'m':m,'profile':iameg(request),'page_obj': paginated_products}
     return render(request, 'products/index.html', context)
 
 
@@ -37,7 +57,7 @@ def detail(request, id):
     return render(request, 'products/product-item-detail.html', {
         'product': product,
         'ratings': ratings,
-        'average_rating': average_rating,
+        'average_rating': average_rating,'profile':iameg(request)
     })
 
 
@@ -53,6 +73,7 @@ def add_to_cart(request, product_id):
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product,quantity=quantity)
         
         if not created:
+            # cart_item=CartItem.objects.filter(quantity=quantity,product=product)
             cart_item.quantity += int(quantity)
         else:
             cart_item.quantity = int(quantity)
@@ -63,15 +84,32 @@ def add_to_cart(request, product_id):
 
 @login_required
 
+
 def cart_view(request):
-    
+ 
     user = request.user.id
-    cart_shop=ShoppingCart.objects.filter(user=user)
-    cart_items=CartItem.objects.filter(cart__id__in=cart_shop)
     
-    total_price=sum( itm.product.price*itm.quantity  for itm in cart_items)
     
-    return render(request,'products/CartItem.html',{'cart_items':cart_items,'total_price':total_price})
+   
+    cart_shop = ShoppingCart.objects.get(user=user)
+    
+        
+    
+    
+    cart_items = CartItem.objects.filter(cart=cart_shop)
+    
+    
+    cart_items = cart_items.annotate(total_price=F('product__price') * F('quantity')).order_by('total_price')
+    
+    
+    total_price = cart_items.aggregate(total=Sum(F('product__price') * F('quantity')))['total'] or 0
+    
+
+    return render(request, 'products/CartItem.html', {
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'profile': iameg(request) 
+    })
 @login_required
 def Remove(request,cartId):
 
@@ -91,6 +129,8 @@ def add_to_comment(request):
     data=Rating(user=user,product=pro,comment=comment,score=score)
     data.save()
     return redirect('product_detail',pro_id)
+
+
 def addoeder(request):
     user = request.user
     cart = ShoppingCart.objects.filter(user=user).first()
@@ -132,31 +172,19 @@ def order(request):
 
     user=request.user
     cart = ShoppingCart.objects.filter(user=user).first()
-    cart_items = CartItem.objects.filter(cart=cart) 
-    total_price=sum( itm.product.price*itm.quantity  for itm in cart_items)
-    
+    cart_items = CartItem.objects.filter(cart=cart)
 
-    dostavka=request.GET.get('dostavka')
-    print(dostavka)
+    total_price=cart_items.aggregate(total_price=Sum(F('product__price')*F('quantity'))) ['total_price']or 0
+
+
+    # total_price=sum( itm.product.price*itm.quantity  for itm in cart_items)
+    
     Shipping_Address=request.GET.get('Shipping_Address')
     
     
-        # الحصول على الملف الشخصي للمستخدم باستخدام العلاقة المحددة في نموذج UserProfile
     user_profile = UserProfile.objects.get(user=user)
     
-    return render(request, 'products/pageorder.html', {'user_profile': user_profile,'cart_items':cart_items,'total_price':total_price})
-
-
-
-
-
-
-
-def pay(request):
-
-
-    return render(request,'products/payment.html')
-
+    return render(request, 'products/pageorder.html', {'user_profile': user_profile,'cart_items':cart_items,'total_price':total_price,'profile':iameg(request)})
 
 
 
@@ -168,4 +196,6 @@ def SignOut(request):
     
     logout(request)
     return redirect('singin')
+
+
 

@@ -1,4 +1,5 @@
 {% extends "header.html" %}
+{% block image %}<img src="{{profile.image.url}}"class="icon rounded-circle">{% endblock image %}
 
 {% block cont %}
 
@@ -37,8 +38,8 @@
         
             <div class="col-lg-2 col-sm-4 col-6">
                 <div class="price-wrap lh-sm"> 
-                    <var class="price h6">{{cart_items.product.price}}</var>  <br>
-                    <small class="text-muted"> $460.00 / per item </small> 
+                    <var class="price h6">${{cart_items.total_price}}</var>  <br>
+                    <small class="text-muted"> {{cart_items.product.price}} / per item </small> 
                 </div> <!-- price-wrap .// -->
             </div>
             <div class="col-lg col-sm-4">
@@ -75,8 +76,9 @@
     <div class="card">
         <div class="card-body">
             <dl class="dlist-align">
+               
                 <dt>Total price:</dt>
-                <dd class="text-end">${{ total_price }}</dd>
+                <dd class="text-end">${{ total_price}}</dd>
             </dl>
             <dl class="dlist-align">
                 <dt>Discount:</dt>

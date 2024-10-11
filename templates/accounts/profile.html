@@ -1,0 +1,163 @@
+{% extends "header.html" %}
+{% load static %}
+{% block image %}<img src="{{profile.image.url}}"class="icon rounded-circle">{% endblock image %}
+
+{% block cont %}
+
+
+
+<div class="row">
+  <aside class="col-lg-3 col-xl-3">
+    <!--  COMPONENT MENU LIST  -->
+    <nav class="nav flex-lg-column nav-pills mb-4">
+      <a class="nav-link active" href="{% url "profile" %}">Account main</a>
+      <a class="nav-link" href="{% url "view_to_comment" %}">comment</a>
+      
+    </nav>
+    <!--   COMPONENT MENU LIST END .//   -->
+  </aside>
+    <main class="col-lg-9  col-xl-9">
+      <article class="card">
+      <div class="content-body">
+  
+      <figure class="itemside align-items-center">
+        <div class="aside">
+          <span class="bg-gray icon-md rounded-circle">
+            <img src="{{profile.image.url}}"class="icon-md rounded-circle">
+          </span>
+        </div>
+        <figcaption class="info">
+          <h6 class="title">{{user.username}}</h6>
+          <p>{{user.email}}, Phone: {{profile.phone}} 
+            <a href="#" class="px-2"><i class="fa fa-pen"></i></a>
+          </p>
+        </figcaption>
+      </figure>
+  
+      <hr>
+  
+      <div class="row g-2 mb-3"> 
+        <div class="col-md-6">
+          <article class="box bg-light">
+            <b class="mx-2 text-muted"><i class="fa fa-map-marker-alt"></i></b> 
+           {{profile.city}},{{profile.address}},{{profile.postal_code}}
+          </article>
+        </div> <!-- col.// -->
+        
+      </div> <!-- row.// -->
+  
+      <hr class="my-4">
+  
+      <h5 class="card-title"> Your orders </h5> 
+      <!--  ======== item order ======== -->
+        {% for order in orders %}
+        
+        <article class="card border-primary mb-4">
+          <div class="card-body">
+            <header class="d-lg-flex">
+              <div class="flex-grow-1">
+                <h6 class="mb-0">Order ID: {{order.id}} 
+                
+                   <i class="dot"></i>  
+                  <span class="text-success"> Shipped</span>
+                </h6>
+                <span class="text-muted">Date: {{order.created_at}}</span>
+              </div>
+              <div class="float-lg-end">
+                 
+                  <a class="btn btn-sm btn-outline-danger " href="{% url "delete" id=order.id %}">Cancel order</a>
+                 
+              </div>
+            </header>
+            <hr>
+            <div class="row">
+              <div class="col-lg-4">
+                <p class="mb-0 text-muted">Contact</p>
+                <p class="m-0"> 
+                  {{request.user.username}}<br>  Phone: 371-295-9131 <br> Email: {{request.user.email}} </p>
+              </div> <!-- col.// -->
+              <div class="col-lg-4 border-start">
+                <p class="mb-0 text-muted">Shipping address</p>
+                <p class="m-0"> {{order_item.order.shipping_address}}
+              </div> <!-- col.// -->
+              {% comment %} <div class="col-lg-4 border-start">
+                <p class="mb-0 text-muted">Payment</p>
+                <p class="m-0">
+                  <span class="text-success"> Visa  **** 4216   </span> <br> 
+                  Shipping fee:  $56 <br> 
+                  Total paid:  $456 
+                </p>
+              </div> <!-- col.// --> {% endcomment %}
+            </div> <!-- row.// -->
+              {% for order_item in order_item %}
+              
+              
+              {% if order_item.order.id == order.id %}
+
+
+              <hr>
+              <ul class="row">
+                  <li class="col-xl-4  col-lg-6">
+                    <figure class="itemside mb-3">
+                      <div class="aside">
+                    
+                        <img width="72" height="72" src="{{order_item.product.image.url}}" class="img-sm rounded border">
+                      </div>
+                      <figcaption class="info">
+                        <p class="title">{{order_item.product.name}}</p>
+                        <strong> {{order_item.quantity}}x=${{order_item.price}} </strong>
+                      </figcaption>
+                    </figure> 
+                  </li>
+                 
+                </ul>
+              </div> <!-- card-body .// -->
+              
+              {% else %}
+              
+
+
+              {% endif %}
+              {% endfor %}
+              <!--  ======== item order .// ======== -->
+              
+              
+            </article>
+              
+              {% endfor %}
+             <!-- card .// --> 
+            
+      </div> <!-- card-body .// -->
+    
+      </article> <!-- card .// --> 
+    </main>
+  </div> <!-- row.// -->
+  
+  <br><br>
+  <footer class="d-flex mt-4">
+    <nav class="ms-3">
+      <ul class="pagination">
+        {% if paginator_order.has_previous %}
+        <li class="page-item active" aria-current="page"><a href="?page={{paginator_order.has_previous}}">Previous
+        </a></li>
+        {% endif %}
+        
+         
+        {% for num in paginator_order.paginator.page_range  %}
+        {% if paginator_order.number == num %}
+        <li class="page-item active" aria-current="page"><span class="page-link">{{num}}</span></li>
+        {% else %}
+
+        <li class="page-item active" aria-current="page"><a href="?page={{num}}">{{num}}
+        </a></li>
+        {% endif %}
+        
+        
+        {% endfor %}
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </footer>
+{% endblock %}
