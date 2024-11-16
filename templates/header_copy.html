@@ -1,0 +1,112 @@
+
+  
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Type some info">
+  <meta name="author" content="Type name">
+
+  <title>Website title - bootstrap5 html template</title>
+
+  <!-- Bootstrap css -->
+  <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" type="text/css" />
+
+  <!-- Custom css -->
+  <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" type="text/css" />
+
+  <!-- Font awesome 5 -->
+  <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+
+  <style>
+    .section-content {
+      min-height: 82vh;
+    }
+  </style>
+  
+</head>
+
+<body>
+
+  <header class="section-header border-bottom border-primary">
+    <nav class="navbar navbar-expand-lg navbar-primary">
+      <div class="container">
+        <a class="navbar-brand" href="">
+          <img src="{% static "images\misc\btn-paypal.png" %}" height="40" class="logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_main" aria-controls="navbar_main" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+      
+      <div class="collapse navbar-collapse"  id="navbar_main">
+          <ul class="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0">
+            <li class="nav-item  me-2 active">
+              <a class="nav-link" href="{% url "index" %}"> Home 
+                <span class="sr-only"></span>
+              </a>
+            </li>
+            <li class="nav-item me-2">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item me-2">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item me-2">
+              <a class="nav-link" href="#">Projects</a>
+            </li>
+           
+          </ul>
+
+          <ul class="navbar-nav">
+            {% if  request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link py-0 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                
+                <span class="icon-xs  rounded-circle me-2  ">  {% block image %}
+                  
+                  
+                  {% endblock image %}
+                  </span>
+                <span>{{request.user.username}}</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li> <a class="dropdown-item fa " href="{% url "profile" %}">Profile</a> </li>
+                <li> <a class="dropdown-item fa " href="#">Account Settings</a> </li>
+                
+                <li> <hr class="dropdown-divider"> </li>
+               
+                
+                <li> <a class="dropdown-item" href="{% url "SignOut" %}">Sign Out</a> </li>
+                
+               
+                
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav> <!-- navbar end.// -->
+  </header> <!-- section-header end.// -->
+    
+  <div class="container">
+  {% block cont %}
+  
+  
+  
+  
+  {% endblock cont %}
+</div>
+ {% include "footers.html" %}
+
+
+
+</body>
+
+</html>
+
+

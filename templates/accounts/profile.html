@@ -1,4 +1,4 @@
-{% extends "header.html" %}
+{% extends "header.html" %} 
 {% load static %}
 {% block image %}<img src="{{profile.image.url}}"class="icon rounded-circle">{% endblock image %}
 
@@ -19,7 +19,7 @@
     <main class="col-lg-9  col-xl-9">
       <article class="card">
       <div class="content-body">
-  
+    
       <figure class="itemside align-items-center">
         <div class="aside">
           <span class="bg-gray icon-md rounded-circle">
@@ -47,19 +47,24 @@
       </div> <!-- row.// -->
   
       <hr class="my-4">
-  
-      <h5 class="card-title"> Your orders </h5> 
+      <div class="aside">
+       
+        <h5 class=""> Your orders: <b class="badge bg-secondary rounded-pill">{{order_count}}</b></h5> 
+        </div>
+      
       <!--  ======== item order ======== -->
+      <div style="height: 300px; overflow-y: scroll;" class="card card-body">
         {% for order in orders %}
         
         <article class="card border-primary mb-4">
           <div class="card-body">
             <header class="d-lg-flex">
               <div class="flex-grow-1">
+                
                 <h6 class="mb-0">Order ID: {{order.id}} 
                 
                    <i class="dot"></i>  
-                  <span class="text-success"> Shipped</span>
+                  <span class="text-success"> {{order.order_status}}</span>
                 </h6>
                 <span class="text-muted">Date: {{order.created_at}}</span>
               </div>
@@ -91,9 +96,10 @@
             </div> <!-- row.// -->
               {% for order_item in order_item %}
               
-              
               {% if order_item.order.id == order.id %}
-
+              {% for get_orderitem in order_item.get_orderitem %}
+              <h6 class="mb-0">Order IllD: {{get_orderitem.id}} 
+              {% endfor %}
 
               <hr>
               <ul class="row">
@@ -126,7 +132,8 @@
               
               {% endfor %}
              <!-- card .// --> 
-            
+        </article> 
+      </div>
       </div> <!-- card-body .// -->
     
       </article> <!-- card .// --> 

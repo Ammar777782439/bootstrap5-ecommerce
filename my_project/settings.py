@@ -71,6 +71,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'products.context_processor.global_context',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -123,13 +124,16 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# المسارات التي تحتوي على ملفات ثابتة أثناء التطوير
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'my_project/static')]
+
+# المسار الذي سيتم فيه تجميع جميع الملفات الثابتة في بيئة الإنتاج
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # تأكد من أن الاسم مختلف عن STATICFILES_DIRS
 
 
 # Default primary key field type
@@ -142,6 +146,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+# مش مفعله
 CART_SESSION_ID = 'cart'
 # INTERNAL_IPS=['127.0.0.1:8000',]

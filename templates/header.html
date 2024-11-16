@@ -31,11 +31,11 @@
 
 <body>
 
-  <header class="section-header border-bottom">
-    <nav class="navbar navbar-expand-lg navbar-light">
+  <header class="section-header border-bottom border-primary">
+    <nav class="navbar navbar-expand-lg navbar-primary">
       <div class="container">
         <a class="navbar-brand" href="">
-          <img src="" height="40" class="logo">
+          <img src="{% static "images\logo-icon.png" %}" height="40" class="logo">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_main" aria-controls="navbar_main" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,27 +45,34 @@
       <div class="collapse navbar-collapse"  id="navbar_main">
           <ul class="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0">
             <li class="nav-item  me-2 active">
-              <a class="nav-link" href="{% url "index" %}"> Home 
+              <a class="nav-link fa fa-Home" href="{% url "index" %}"> Home 
                 <span class="sr-only"></span>
               </a>
             </li>
             <li class="nav-item me-2">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link fa" href="#">About</a>
             </li>
             <li class="nav-item me-2">
-              <a class="nav-link" href="#">Services</a>
+              <a class="nav-link fa" href="#">Services</a>
             </li>
             <li class="nav-item me-2">
-              <a class="nav-link" href="#">Projects</a>
-            </li>
-            <li class="nav-item me-2">
-              <a class="nav-link" href="#">Services</a>
+              <a class="nav-link fa" href="#">Projects</a>
             </li>
             <li class="nav-item me-2">
               {% if  request.user.is_authenticated %}
               
               {% else %}
-              <a class="nav-link" href="{% url 'singin' %} ">Signin</a>
+              <a class="nav-link fa" href="{% url "order" %}">order</a>
+            </li>
+            {% endif %}
+            <li class="nav-item me-2">
+              {% if  request.user.is_authenticated %}
+              
+              {% else %}
+              <a href="{% url 'singin' %} "class="btn btn-light"> 
+                <i class="fa fa-user"></i>  <span class="ms-1 d-none d-sm-inline-block">Sign in  </span> 
+            </a>
+              
             </li>
             {% endif %}
           </ul>
@@ -75,22 +82,23 @@
             <li class="nav-item dropdown">
               <a class="nav-link py-0 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 
-                <span class="icon-xs bg-gray rounded-circle me-2  ">  {% block image %}
+                <span class="icon-xs  rounded-circle me-2  ">  {% block image %}
                   
                   
                   {% endblock image %}
-                  <i class="fa fa-user"></i> </span>
+                  </span>
                 <span>{{request.user.username}}</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li> <a class="dropdown-item" href="{% url "profile" %}">Profile</a> </li>
-                <li> <a class="dropdown-item" href="#">Account Settings</a> </li>
-                <li> <a class="dropdown-item" href="{% url "cart_view" %}">CartItem</a> </li>
+                <li> <a class="dropdown-item fa " href="{% url "profile" %}">Profile</a> </li>
+                <li> <a class="dropdown-item fa " href="#">Account Settings</a> </li>
                 
+                <li> <a class="dropdown-item fa fa-shopping-cart" href="{% url "cart_view" %}">CartItem  <b class="badge bg-secondary rounded-pill">{{global_data}}</b></a> </li>
+               
                 <li> <hr class="dropdown-divider"> </li>
                
                 
-                <li> <a class="dropdown-item" href="{% url "SignOut" %}">Sign Out</a> </li>
+                <li> <a class="dropdown-item fa" href="{% url "SignOut" %}">Sign Out</a> </li>
                 
                
                 {% endif %}
@@ -118,3 +126,5 @@
 </body>
 
 </html>
+
+

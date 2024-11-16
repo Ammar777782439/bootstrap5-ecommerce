@@ -22,16 +22,16 @@ def iameg(request):
 
     return profile
     
-@login_required(redirect_field_name='account')
+# @login_required(redirect_field_name='account')
 def index(request):
     # if not request.user.is_authenticated:#طريقه لتحقق من تسجيل الدخول للمستحدم
     #     return redirect('singin')
     
-    
+ if request.user.is_authenticated:
     m= request.user.id
     products = Product.objects.all()
     products_with_ratings = []
-   
+    # print(products.get_order())
     paginator = Paginator(products, 4) 
     page_number = request.GET.get('page')
     
@@ -47,7 +47,31 @@ def index(request):
 
     context = {'products_with_ratings': products_with_ratings,'m':m,'profile':iameg(request),'page_obj': paginated_products}
     return render(request, 'products/index.html', context)
+ 
 
+
+ else:
+     
+
+     products = Product.objects.all()
+     products_with_ratings = []
+    # print(products.get_order())
+     paginator = Paginator(products, 4) 
+     page_number = request.GET.get('page')
+    
+     try:
+        paginated_products = paginator.page(page_number)
+     except PageNotAnInteger:
+        paginated_products = paginator.page(1)
+     except EmptyPage:
+        paginated_products = paginator.page(paginator.num_pages)
+     for product in paginated_products:
+        average_rating = product.get_average_rating()
+        products_with_ratings.append({'product': product, 'average_rating': average_rating})
+
+     
+     context = {'products_with_ratings': products_with_ratings,'m':None,'profile':None,'page_obj': paginated_products}
+     return render(request, 'products/index.html',context)
 
 @login_required(redirect_field_name='account')
 def detail(request, id):
@@ -57,7 +81,8 @@ def detail(request, id):
     return render(request, 'products/product-item-detail.html', {
         'product': product,
         'ratings': ratings,
-        'average_rating': average_rating,'profile':iameg(request)
+        'average_rating': average_rating,'profile':iameg(request),
+        'score_range': range(1, 6),
     })
 
 
@@ -75,10 +100,10 @@ def add_to_cart(request, product_id):
         if not created:
             # cart_item=CartItem.objects.filter(quantity=quantity,product=product)
             cart_item.quantity += int(quantity)
-        else:
-            cart_item.quantity = int(quantity)
+            cart_item.save()
         
-        cart_item.save()
+        
+          
 
         return redirect('cart_view')
 
@@ -130,7 +155,7 @@ def add_to_comment(request):
     data.save()
     return redirect('product_detail',pro_id)
 
-
+login_required(redirect_field_name='account')
 def addoeder(request):
     user = request.user
     cart = ShoppingCart.objects.filter(user=user).first()
@@ -151,7 +176,7 @@ def addoeder(request):
         order_status='Pending'  # تعيين الحالة الافتراضية للطلب
     )
 
-    # إضافة العناصر إلى الطلب
+  
     for item in cart_items:
         OrderItem.objects.create(
             order=order,
@@ -160,14 +185,14 @@ def addoeder(request):
             price=item.product.price
         )
 
-    # حذف العناصر من السلة بعد إنشاء الطلب
+   
     cart_items.delete()
 
-    # الحصول على الملف الشخصي للمستخدم
+   
     user_profile = UserProfile.objects.get(user=user)
 
     return redirect('order')
-   
+@login_required(redirect_field_name='account')
 def order(request):
 
     user=request.user

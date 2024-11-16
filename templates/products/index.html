@@ -5,7 +5,18 @@
 {% block cont %}
 {% load static %}
 <main class="col-lg-9">
-		<h1>{{n}}</h1>
+		
+  {% comment %} {% if  request.user.is_authenticated %}
+    
+
+  {% else %}
+  <a href="#" class="btn btn-outline-primary">Register</a>
+  <a href="#" class="btn btn-primary">Sign in</a>
+
+  {% endif %} {% endcomment %}
+
+    
+              
   {% for item in products_with_ratings %}
 <article class="card card-product-list">
   <div class="row g-0">
@@ -16,7 +27,7 @@
     </aside>
     <div class="col-xl-6 col-md-5 col-sm-7">
       <div class="card-body">
-        <a href="#" class="title h5">{{ item.product.name }}</a>
+        <a href="#" class="title h5 fit">{{ item.product.name }}</a>
         <div class="rating-wrap mb-2">
           <ul class="rating-stars">
             <li class="stars-active" style="width:{{ item.average_rating|default:0 }}0%;">
@@ -27,14 +38,15 @@
             </li>
  
 
-                
+              
 
 
 
               </ul>
               <b class="label-rating text-warning">{{item.average_rating|default:"No ratings yet" }}</b>
               <i class="dot"></i>
-              <span class="label-rating text-muted">154 orders</span>
+             
+              <span class="label-rating text-muted fab ">Order:{{ item.product.get_order }}</span>
             </div> <!-- rating-wrap.// -->
             <p> {{item.product.description}}</p>
           </div> <!-- card-body.// -->
@@ -42,13 +54,13 @@
         <aside class="col-xl-3 col-md-3 col-sm-5">
           <div class="info-aside">
             <div class="price-wrap">
-              <var class="price h5"> ${{item.product.price}} </var>  
-              <del class="price-old">${{item.product.priceOld}}</del>
+              <var class="price h5 fa-light"> ${{item.product.price}} </var>  
+              <del class="price-old fa  ">${{item.product.priceOld}}</del>
             </div> <!-- info-price-detail // -->
-            <p class="text-success">Free shipping</p>
+            <p class="text-success fa">{{item.product.stock}}</p>
             <br>
             <div class="mb-3">
-              <span><a href="{% url 'product_detail' id=item.product.id %}" class="btn btn-primary"> Buy this </a></span>
+              <span><a href="{% url 'product_detail' id=item.product.id %}" class="btn btn-warning  "> Buy this </a></span>
                </a>
             </div>
           </div> <!-- info-aside.// -->
@@ -105,8 +117,6 @@
   </footer>
 
     <!-- ========= content items .// ========= -->
-
-    
 
 	</main> <!-- col .// -->
 </div> <!-- row .// -->

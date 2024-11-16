@@ -10,6 +10,7 @@ urlpatterns = [
     path('login/',views.signin,name='singin'),
     path('profile/',views.profile,name='profile'),
     path('viewcomment/', views.view_to_comment, name='view_to_comment'),
+    path('viewcomment_copy/', views.view_to_comment_test, name='view_to_comment_test'),
       
     
 ]

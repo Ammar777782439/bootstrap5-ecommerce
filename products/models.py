@@ -26,7 +26,11 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    def get_order(self):
+        return self.orderitem_set.all().count()
     
+
+        # return self.order.set.filter(product__id=Product.id).count()
     def get_average_rating(self):
         ratings = self.ratings.all() 
         if ratings.exists():
@@ -82,10 +86,13 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    # def get_orderitem(self):
+    #     return self.order_set.all().frist()
     
     def __str__(self):
         return f'{self.product.name} x {self.quantity}'
     
+
 
 class ShoppingCart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

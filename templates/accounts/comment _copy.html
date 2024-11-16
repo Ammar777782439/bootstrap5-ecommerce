@@ -1,0 +1,63 @@
+{% extends "header.html" %}
+{% comment %} {% block image %}<img src="{{profile.image.url}}"class="icon rounded-circle">{% endblock image %} {% endcomment %}
+
+{% load static %}
+
+{% block cont %}
+
+<div class="card mb-4">
+    <div class="row">
+        <aside class="col-lg-3 col-xl-3">
+            <!--  COMPONENT MENU LIST  -->
+            <nav class="nav flex-lg-column nav-pills mb-4">
+              <a class="nav-link " href="{% url "profile" %}">Account main</a>
+              <a class="nav-link active" href="{% url "view_to_comment" %}">comment</a>
+              <a class="nav-link active" href="{% url "view_to_comment_test" %}">comment</a>
+              
+            </nav>
+            <!--   COMPONENT MENU LIST END .//   -->
+          </aside>
+    <m class="card-body col-lg-9  col-xl-9">
+      <h5 class="card-title">comment </h5>
+      <hr>
+      <div style="height: 300px; overflow-y: scroll;" class="card card-body">
+    
+      <blockquote class="border-bottom">
+          <div class="float-lg-end d-flex mb-3">
+              <div class="btn-group d-inline-flex me-2">
+                <div class="float-lg-end">
+                
+                    <a class="btn btn-sm btn-outline-danger " href="">delete comment</a>
+                   
+                </div></div>
+                {% comment %} {% for name in product_namee %}
+                
+                <figcaption class="info">
+                  <p class="title"><h1>{{name}} </h1></p>
+                  <strong> </strong>
+                </figcaption>
+              </figure> 
+                <p>{{product_namee}}</p>
+                <br>
+                
+                {% endfor %} {% endcomment %}
+                <p>{{product_namee}}</p>
+          </div>
+          <div class="icontext">
+              <img src="" class="img-xs icon rounded-circle">
+              <div class="text">
+                
+                  <h6 class="mb-0">  </h6>
+                    
+                  
+              </div>
+          </div> <!-- icontext.// -->
+        
+          
+      </blockquote>
+     
+    </div>
+  </div>
+</div>
+
+{% endblock  %}

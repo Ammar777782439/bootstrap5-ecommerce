@@ -12,6 +12,7 @@
             <nav class="nav flex-lg-column nav-pills mb-4">
               <a class="nav-link " href="{% url "profile" %}">Account main</a>
               <a class="nav-link active" href="{% url "view_to_comment" %}">comment</a>
+              <a class="nav-link active" href="{% url "view_to_comment_test" %}">comment</a>
               
             </nav>
             <!--   COMPONENT MENU LIST END .//   -->
@@ -19,6 +20,7 @@
     <m class="card-body col-lg-9  col-xl-9">
       <h5 class="card-title">comment </h5>
       <hr>
+      <div style="height: 300px; overflow-y: scroll;" class="card card-body">
       {% for pro in pro %}
       <blockquote class="border-bottom">
           <div class="float-lg-end d-flex mb-3">
